@@ -152,7 +152,7 @@ public void GivePlayerGloves(int client)
 		return;
 	}
 	if(g_bIsClientGlovesBlocked[client]) return;
-	AF_DisableClientArmsUpdate(client, true, true);
+	AF_DisableClientArmsUpdate(client);
 	int ent = GetEntPropEnt(client, Prop_Send, "m_hMyWearables");
 	if(ent != -1)
 	{

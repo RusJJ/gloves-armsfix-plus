@@ -87,7 +87,7 @@ public int Native_DisableClientGloves(Handle plugin, int numParams)
 	}
 	else
 	{
-		AF_DisableClientArmsUpdate(clientIndex, true, true);
+		AF_DisableClientArmsUpdate(clientIndex);
 		GivePlayerGloves(clientIndex);
 	}
 }
@@ -121,7 +121,7 @@ public int Native_RequestGlovesUpdate(Handle plugin, int numParams)
 	}
 	else
 	{
-		AF_DisableClientArmsUpdate(clientIndex, true, true);
+		AF_DisableClientArmsUpdate(clientIndex);
 		GivePlayerGloves(clientIndex);
 	}
 }

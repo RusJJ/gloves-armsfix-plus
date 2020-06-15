@@ -160,7 +160,7 @@ public int GloveMainMenuHandler(Menu menu, MenuAction action, int client, int se
 							}
 							else
 							{
-								AF_DisableClientArmsUpdate(client, true, true);
+								AF_DisableClientArmsUpdate(client);
 								GivePlayerGloves(client);
 							}
 							if(activeWeapon != -1)

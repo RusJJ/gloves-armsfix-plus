@@ -3,6 +3,11 @@
 #endif
 #define _gloves_included_
 
+#if defined _gloves_afplus_included_
+  #endinput
+#endif
+#define _gloves_afplus_included_
+
 // returns if the client is using any gloves or not
 native bool Gloves_IsClientUsingGloves(int client);
 
@@ -15,3 +20,14 @@ native void Gloves_SetArmsModel(int client, const char[] armsModel);
 
 // returns the registered custom arms model. "" if not set
 native void Gloves_GetArmsModel(int client, char[] armsModel, int size);
+
+// ArmsFix+: Additional Natives to disable gloves and etc
+
+// disables gloves
+native void Gloves_DisableClientGloves(int client, bool disable = true);
+
+// if gloves disabled
+native bool Gloves_IsClientGlovesDisabled(int client);
+
+// requires an update (automatically after Gloves_DisableClientGloves)
+native void Gloves_RequestGlovesUpdate(int client);

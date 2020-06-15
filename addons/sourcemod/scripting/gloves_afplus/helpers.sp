@@ -53,13 +53,3 @@ stock void FirstCharUpper(char[] string)
 		string[0] = CharToUpper(string[0]);
 	}
 }
-
-stock void FixCustomArms(int client)
-{
-	char temp[2];
-	GetEntPropString(client, Prop_Send, "m_szArmsModel", temp, sizeof(temp));
-	if(temp[0])
-	{
-		SetEntPropString(client, Prop_Send, "m_szArmsModel", "");
-	}
-}

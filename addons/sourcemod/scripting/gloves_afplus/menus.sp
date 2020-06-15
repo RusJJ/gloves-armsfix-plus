@@ -121,62 +121,67 @@ public int GloveMainMenuHandler(Menu menu, MenuAction action, int client, int se
 				menu.GetItem(selection, info, sizeof(info));
 				int index = StringToInt(info);
 				
-				if(index == 0 || index == -1)
+				if(!g_bIsClientGlovesBlocked[client])
 				{
-					int team = g_iTeam[client];
-					char updateFields[128];
-					char teamName[4];
-					g_iGroup[client][team] = index;
-					g_iGloves[client][team] = index;
-					if(team == CS_TEAM_T)
+					if(index == 0 || index == -1)
 					{
-						teamName = "t";
-					}
-					else if(team == CS_TEAM_CT)
-					{
-						teamName = "ct";
-					}
-					Format(updateFields, sizeof(updateFields), "%s_group = %d, %s_glove = %d", teamName, index, teamName, index);
-					UpdatePlayerData(client, updateFields);
-					
-					if(team == GetClientTeam(client))
-					{
-						int activeWeapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
-						if(activeWeapon != -1)
+						int team = g_iTeam[client];
+						char updateFields[128];
+						char teamName[4];
+						g_iGroup[client][team] = index;
+						g_iGloves[client][team] = index;
+						if(team == CS_TEAM_T)
 						{
-							SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", -1);
+							teamName = "t";
 						}
-						if(index == 0)
+						else if(team == CS_TEAM_CT)
 						{
-							int ent = GetEntPropEnt(client, Prop_Send, "m_hMyWearables");
-							if(ent != -1)
+							teamName = "ct";
+						}
+						Format(updateFields, sizeof(updateFields), "%s_group = %d, %s_glove = %d", teamName, index, teamName, index);
+						UpdatePlayerData(client, updateFields);
+						
+						if(team == GetClientTeam(client))
+						{
+							int activeWeapon = GetEntPropEnt(client, Prop_Send, "m_hActiveWeapon");
+							if(activeWeapon != -1)
 							{
-								AcceptEntityInput(ent, "KillHierarchy");
+								SetEntPropEnt(client, Prop_Send, "m_hActiveWeapon", -1);
 							}
-							SetEntPropString(client, Prop_Send, "m_szArmsModel", g_CustomArms[client][team]);
+							if(index == 0)
+							{
+								AF_DisableClientArmsUpdate(client, false);
+								int ent = GetEntPropEnt(client, Prop_Send, "m_hMyWearables");
+								if(ent != -1)
+								{
+									AcceptEntityInput(ent, "KillHierarchy");
+								}
+								AF_RequestArmsUpdate(client);
+							}
+							else
+							{
+								AF_DisableClientArmsUpdate(client, true, true);
+								GivePlayerGloves(client);
+							}
+							if(activeWeapon != -1)
+							{
+								DataPack dpack;
+								CreateDataTimer(0.1, ResetGlovesTimer, dpack);
+								dpack.WriteCell(client);
+								dpack.WriteCell(activeWeapon);
+							}
 						}
-						else
-						{
-							GivePlayerGloves(client);
-						}
-						if(activeWeapon != -1)
-						{
-							DataPack dpack;
-							CreateDataTimer(0.1, ResetGlovesTimer, dpack);
-							dpack.WriteCell(client);
-							dpack.WriteCell(activeWeapon);
-						}
+						
+						DataPack pack;
+						CreateDataTimer(0.5, GlovesMenuTimer, pack);
+						pack.WriteCell(menu);
+						pack.WriteCell(client);
+						pack.WriteCell(GetMenuSelectionPosition());
 					}
-					
-					DataPack pack;
-					CreateDataTimer(0.5, GlovesMenuTimer, pack);
-					pack.WriteCell(menu);
-					pack.WriteCell(client);
-					pack.WriteCell(GetMenuSelectionPosition());
-				}
-				else
-				{
-					menuGloves[g_iClientLanguage[client]][g_iTeam[client]][index].Display(client, MENU_TIME_FOREVER);
+					else
+					{
+						menuGloves[g_iClientLanguage[client]][g_iTeam[client]][index].Display(client, MENU_TIME_FOREVER);
+					}
 				}
 			}
 		}

@@ -43,6 +43,7 @@ int g_iEnableWorldModel;
 
 int g_iGroup[MAXPLAYERS+1][4];
 int g_iGloves[MAXPLAYERS+1][4];
+bool g_bIsClientGlovesBlocked[MAXPLAYERS+1] = {false, ...};
 float g_fFloatValue[MAXPLAYERS+1][4];
 char g_CustomArms[MAXPLAYERS+1][4][256];
 int g_iTeam[MAXPLAYERS+1] = { 0, ... };

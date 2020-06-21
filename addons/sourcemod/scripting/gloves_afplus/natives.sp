@@ -47,9 +47,7 @@ public int Native_SetArmsModel(Handle plugin, int numParams)
 	int playerTeam = GetClientTeam(clientIndex);
 	GetNativeString(2, g_CustomArms[clientIndex][playerTeam], 256);
 	if(g_iGloves[clientIndex][playerTeam] == 0)
-	{
 		AF_SetClientArmsModel(clientIndex, g_CustomArms[clientIndex][playerTeam]);
-	}
 }
 
 public int Native_GetArmsModel(Handle plugin, int numParams)
@@ -71,23 +69,17 @@ public int Native_DisableClientGloves(Handle plugin, int numParams)
 		AF_DisableClientArmsUpdate(clientIndex, false);
 		AF_RequestArmsUpdate(clientIndex);
 		int ent = GetEntPropEnt(clientIndex, Prop_Send, "m_hActiveWeapon");
-		if(ent != -1)
-		{
-			SetEntPropEnt(clientIndex, Prop_Send, "m_hActiveWeapon", -1);
-		}
+		if(ent != -1) SetEntPropEnt(clientIndex, Prop_Send, "m_hActiveWeapon", -1);
 		DataPack dpack;
 		CreateDataTimer(0.1, ResetGlovesTimer, dpack);
 		dpack.WriteCell(clientIndex);
 		dpack.WriteCell(ent);
 		ent = GetEntPropEnt(clientIndex, Prop_Send, "m_hMyWearables");
-		if(ent != -1)
-		{
-			AcceptEntityInput(ent, "KillHierarchy");
-		}
+		if(ent != -1) AcceptEntityInput(ent, "KillHierarchy");
 	}
 	else
 	{
-		AF_DisableClientArmsUpdate(clientIndex);
+		AF_DisableClientArmsUpdate(clientIndex, g_iGloves[clientIndex][GetClientTeam(clientIndex)]!=0);
 		GivePlayerGloves(clientIndex);
 	}
 }
@@ -105,19 +97,13 @@ public int Native_RequestGlovesUpdate(Handle plugin, int numParams)
 		AF_DisableClientArmsUpdate(clientIndex, false);
 		AF_RequestArmsUpdate(clientIndex);
 		int ent = GetEntPropEnt(clientIndex, Prop_Send, "m_hActiveWeapon");
-		if(ent != -1)
-		{
-			SetEntPropEnt(clientIndex, Prop_Send, "m_hActiveWeapon", -1);
-		}
+		if(ent != -1) SetEntPropEnt(clientIndex, Prop_Send, "m_hActiveWeapon", -1);
 		DataPack dpack;
 		CreateDataTimer(0.1, ResetGlovesTimer, dpack);
 		dpack.WriteCell(clientIndex);
 		dpack.WriteCell(ent);
 		ent = GetEntPropEnt(clientIndex, Prop_Send, "m_hMyWearables");
-		if(ent != -1)
-		{
-			AcceptEntityInput(ent, "KillHierarchy");
-		}
+		if(ent != -1) AcceptEntityInput(ent, "KillHierarchy");
 	}
 	else
 	{

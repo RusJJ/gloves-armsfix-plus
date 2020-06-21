@@ -1,0 +1,39 @@
+"Phrases"
+{
+	"GloveMenuTitle"
+	{
+		"ru"	"Выбор перчаток"
+	}
+	"CT"
+	{
+		"ru"	"Спецназ"
+	}
+	"T"
+	{
+		"ru"	"Террорист"
+	}
+	"Increase"
+	{
+		"ru"	"Увеличить на %d%%"
+	}
+	"Decrease"
+	{
+		"ru"	"Уменьшить на %d%%"
+	}
+	"ChooseLanguage"
+	{
+		"ru"	"Выберите язык для меню выбора:"
+	}
+	"DefaultGloves"
+	{
+		"ru"	"Стандартные"
+	}
+	"RandomGloves"
+	{
+		"ru"	"Случайные"
+	}
+	"SetFloat"
+	{
+		"ru"	"Качество перчаток: "
+	}
+}
